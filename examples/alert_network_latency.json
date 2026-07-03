@@ -1,0 +1,10 @@
+{
+  "alert_id": "alert-002",
+  "asset_id": "edge-gateway-04",
+  "alert_type": "network_latency_high",
+  "severity": "warning",
+  "value": 245,
+  "unit": "ms",
+  "timestamp": "2026-07-03T12:05:00Z",
+  "message": "Network latency increased on Edge Gateway 04."
+}

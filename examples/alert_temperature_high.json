@@ -1,0 +1,10 @@
+{
+  "alert_id": "alert-001",
+  "asset_id": "boiler-17",
+  "alert_type": "temperature_high",
+  "severity": "critical",
+  "value": 91.4,
+  "unit": "celsius",
+  "timestamp": "2026-07-03T12:00:00Z",
+  "message": "Temperature threshold exceeded on Boiler 17."
+}

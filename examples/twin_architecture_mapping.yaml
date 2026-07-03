@@ -1,0 +1,10 @@
+assets:
+  - asset_id: boiler-17
+    ea_element_id: tech-heating-control-unit
+    default_bpmn_process: handle-critical-equipment-anomaly
+    owner: Facility Operations Team
+
+  - asset_id: edge-gateway-04
+    ea_element_id: tech-edge-gateway
+    default_bpmn_process: investigate-connectivity-issue
+    owner: Platform Operations Team

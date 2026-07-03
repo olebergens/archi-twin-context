@@ -1,0 +1,158 @@
+elements:
+  - id: cap-facility-operations
+    name: Facility Operations
+    type: BusinessCapability
+    layer: Business
+    description: Capability responsible for operating physical facilities and building infrastructure.
+    criticality: high
+    owner: Facility Operations
+    related_elements:
+      - proc-equipment-incident-handling
+      - app-maintenance-management-system
+    supported_capabilities: []
+    supported_processes:
+      - proc-equipment-incident-handling
+    supported_applications:
+      - app-maintenance-management-system
+    tags:
+      - operations
+      - facility
+      - critical
+
+  - id: proc-equipment-incident-handling
+    name: Equipment Incident Handling
+    type: BusinessProcess
+    layer: Business
+    description: Process for identifying, assessing and resolving equipment incidents.
+    criticality: high
+    owner: Facility Operations Team
+    related_elements:
+      - cap-facility-operations
+      - app-maintenance-management-system
+    supported_capabilities:
+      - cap-facility-operations
+    supported_processes: []
+    supported_applications:
+      - app-maintenance-management-system
+    tags:
+      - incident
+      - maintenance
+
+  - id: app-maintenance-management-system
+    name: Maintenance Management System
+    type: ApplicationComponent
+    layer: Application
+    description: Application used to plan, document and monitor maintenance activities.
+    criticality: high
+    owner: Maintenance IT
+    related_elements:
+      - cap-facility-operations
+      - tech-heating-control-unit
+    supported_capabilities:
+      - cap-facility-operations
+    supported_processes:
+      - proc-equipment-incident-handling
+    supported_applications: []
+    tags:
+      - maintenance
+      - application
+
+  - id: tech-heating-control-unit
+    name: Heating Control Unit
+    type: TechnologyNode
+    layer: Technology
+    description: Technology node controlling heating equipment and sensor communication.
+    criticality: high
+    owner: Facility Operations Team
+    related_elements:
+      - app-maintenance-management-system
+      - cap-facility-operations
+    supported_capabilities:
+      - cap-facility-operations
+    supported_processes:
+      - proc-equipment-incident-handling
+    supported_applications:
+      - app-maintenance-management-system
+    tags:
+      - heating
+      - sensor
+      - equipment
+
+  - id: cap-platform-operations
+    name: Platform Operations
+    type: BusinessCapability
+    layer: Business
+    description: Capability responsible for operating integration and edge infrastructure.
+    criticality: medium
+    owner: Platform Operations
+    related_elements:
+      - app-iot-platform
+      - tech-edge-gateway
+    supported_capabilities: []
+    supported_processes:
+      - proc-connectivity-incident-handling
+    supported_applications:
+      - app-iot-platform
+    tags:
+      - platform
+      - operations
+
+  - id: proc-connectivity-incident-handling
+    name: Connectivity Incident Handling
+    type: BusinessProcess
+    layer: Business
+    description: Process for investigating and resolving connectivity incidents.
+    criticality: medium
+    owner: Platform Operations Team
+    related_elements:
+      - cap-platform-operations
+      - app-iot-platform
+    supported_capabilities:
+      - cap-platform-operations
+    supported_processes: []
+    supported_applications:
+      - app-iot-platform
+    tags:
+      - network
+      - connectivity
+      - incident
+
+  - id: app-iot-platform
+    name: IoT Platform
+    type: ApplicationComponent
+    layer: Application
+    description: Platform that receives, processes and forwards device telemetry and alerts.
+    criticality: medium
+    owner: Platform IT
+    related_elements:
+      - cap-platform-operations
+      - tech-edge-gateway
+    supported_capabilities:
+      - cap-platform-operations
+    supported_processes:
+      - proc-connectivity-incident-handling
+    supported_applications: []
+    tags:
+      - iot
+      - platform
+
+  - id: tech-edge-gateway
+    name: Edge Gateway
+    type: TechnologyNode
+    layer: Technology
+    description: Gateway device connecting local sensors and edge assets to the IoT platform.
+    criticality: medium
+    owner: Platform Operations Team
+    related_elements:
+      - app-iot-platform
+      - cap-platform-operations
+    supported_capabilities:
+      - cap-platform-operations
+    supported_processes:
+      - proc-connectivity-incident-handling
+    supported_applications:
+      - app-iot-platform
+    tags:
+      - edge
+      - gateway
+      - network
