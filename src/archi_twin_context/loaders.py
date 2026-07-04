@@ -8,6 +8,7 @@ import yaml
 from pydantic import ValidationError
 from yaml import YAMLError
 
+from .archimate import load_archimate_model_exchange
 from .models import ArchitectureModel, AssetMapping, DigitalTwinAlert
 
 
@@ -51,6 +52,12 @@ def load_architecture_model(path: Path) -> ArchitectureModel:
         return ArchitectureModel.model_validate(data)
     except ValidationError as exc:
         raise ValueError(f"Invalid architecture model file {path}: {exc}") from exc
+
+
+def load_archimate_xml_model(path: Path, xsd_path: Path) -> ArchitectureModel:
+    """Load an ArchiMate Model Exchange XML file after XSD validation"""
+
+    return load_archimate_model_exchange(path, xsd_path)
 
 
 def _load_json_object(path: Path, label: str) -> dict[str, Any]:

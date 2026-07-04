@@ -61,6 +61,16 @@ def test_temperature_high_fallback_rule() -> None:
     assert recommendation == "handle-equipment-anomaly"
 
 
+def test_vibration_high_fallback_rule() -> None:
+    recommendation = recommend_bpmn_process(
+        _alert("vibration_high"),
+        _mapping(),
+        _mapped_element(),
+    )
+
+    assert recommendation == "handle-equipment-anomaly"
+
+
 def test_unknown_alert_type_returns_none() -> None:
     recommendation = recommend_bpmn_process(
         _alert("unknown_alert_type"),

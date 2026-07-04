@@ -1,0 +1,10 @@
+{
+  "alert_id": "alert-003",
+  "asset_id": "cnc-01",
+  "alert_type": "vibration_high",
+  "severity": "critical",
+  "value": 7.8,
+  "unit": "mm/s",
+  "timestamp": "2026-07-03T12:10:00Z",
+  "message": "Vibration threshold exceeded on CNC Milling Machine 01."
+}

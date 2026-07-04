@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       identifier="model-manufacturing-company"
+       version="3.1">
+  <name>Manufacturing Company Operations Architecture</name>
+  <documentation>Small ArchiMate Model Exchange example for a production company with machines, departments and supporting applications.</documentation>
+
+  <elements>
+    <element identifier="cap-production-operations" xsi:type="Capability">
+      <name>Production Operations</name>
+      <documentation>Capability for planning, executing and monitoring production orders.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Production Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>production, operations, capability</value></property>
+      </properties>
+    </element>
+
+    <element identifier="cap-quality-management" xsi:type="Capability">
+      <name>Quality Management</name>
+      <documentation>Capability for quality assurance and inspection across production lines.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>medium</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Quality Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>quality, inspection, capability</value></property>
+      </properties>
+    </element>
+
+    <element identifier="actor-production-department" xsi:type="BusinessActor">
+      <name>Production Department</name>
+      <documentation>Department responsible for production execution.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Head of Production</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>department, production</value></property>
+      </properties>
+    </element>
+
+    <element identifier="actor-maintenance-department" xsi:type="BusinessActor">
+      <name>Maintenance Department</name>
+      <documentation>Department responsible for corrective and preventive maintenance.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Maintenance Lead</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>department, maintenance</value></property>
+      </properties>
+    </element>
+
+    <element identifier="actor-quality-department" xsi:type="BusinessActor">
+      <name>Quality Department</name>
+      <documentation>Department responsible for inspection plans and release decisions.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>medium</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Quality Lead</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>department, quality</value></property>
+      </properties>
+    </element>
+
+    <element identifier="proc-production-scheduling" xsi:type="BusinessProcess">
+      <name>Production Scheduling</name>
+      <documentation>Process for scheduling and sequencing production orders.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Production Planning Team</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>process, production, scheduling</value></property>
+      </properties>
+    </element>
+
+    <element identifier="proc-equipment-incident-handling" xsi:type="BusinessProcess">
+      <name>Equipment Incident Handling</name>
+      <documentation>Process for assessing and resolving production equipment incidents.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Maintenance Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>process, maintenance, incident</value></property>
+      </properties>
+    </element>
+
+    <element identifier="proc-quality-inspection" xsi:type="BusinessProcess">
+      <name>Quality Inspection</name>
+      <documentation>Process for inspecting produced goods before shipment.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>medium</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Quality Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>process, quality, inspection</value></property>
+      </properties>
+    </element>
+
+    <element identifier="app-mes" xsi:type="ApplicationComponent">
+      <name>Manufacturing Execution System</name>
+      <documentation>Application coordinating production execution and machine status.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Manufacturing IT</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>application, mes, production</value></property>
+      </properties>
+    </element>
+
+    <element identifier="app-maintenance-system" xsi:type="ApplicationComponent">
+      <name>Maintenance Management System</name>
+      <documentation>Application for maintenance tickets, work orders and equipment history.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Maintenance IT</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>application, maintenance, work-order</value></property>
+      </properties>
+    </element>
+
+    <element identifier="app-quality-system" xsi:type="ApplicationComponent">
+      <name>Quality Management System</name>
+      <documentation>Application for inspection plans, non-conformance records and releases.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>medium</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Quality IT</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>application, quality, inspection</value></property>
+      </properties>
+    </element>
+
+    <element identifier="node-edge-platform" xsi:type="Node">
+      <name>Shopfloor Edge Platform</name>
+      <documentation>Edge node collecting machine telemetry and forwarding events to MES.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Platform Operations</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>edge, telemetry, shopfloor</value></property>
+      </properties>
+    </element>
+
+    <element identifier="equipment-cnc-01" xsi:type="Equipment">
+      <name>CNC Milling Machine 01</name>
+      <documentation>Critical CNC milling machine in production line A.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Maintenance Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>cnc, machine, production</value></property>
+      </properties>
+    </element>
+
+    <element identifier="equipment-assembly-robot-02" xsi:type="Equipment">
+      <name>Assembly Robot 02</name>
+      <documentation>Assembly robot for automated component assembly.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>high</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Maintenance Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>robot, machine, production</value></property>
+      </properties>
+    </element>
+
+    <element identifier="equipment-packaging-line-03" xsi:type="Equipment">
+      <name>Packaging Line 03</name>
+      <documentation>Packaging line preparing finished goods for outbound logistics.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-criticality"><value>medium</value></property>
+        <property propertyDefinitionRef="pd-owner"><value>Production Department</value></property>
+        <property propertyDefinitionRef="pd-tags"><value>packaging, machine, production</value></property>
+      </properties>
+    </element>
+  </elements>
+
+  <relationships>
+    <relationship identifier="rel-production-assigned-scheduling" xsi:type="Assignment" source="actor-production-department" target="proc-production-scheduling" />
+    <relationship identifier="rel-maintenance-assigned-incident" xsi:type="Assignment" source="actor-maintenance-department" target="proc-equipment-incident-handling" />
+    <relationship identifier="rel-quality-assigned-inspection" xsi:type="Assignment" source="actor-quality-department" target="proc-quality-inspection" />
+    <relationship identifier="rel-scheduling-realizes-production" xsi:type="Realization" source="proc-production-scheduling" target="cap-production-operations" />
+    <relationship identifier="rel-inspection-realizes-quality" xsi:type="Realization" source="proc-quality-inspection" target="cap-quality-management" />
+    <relationship identifier="rel-mes-serves-scheduling" xsi:type="Serving" source="app-mes" target="proc-production-scheduling" />
+    <relationship identifier="rel-maintenance-system-serves-incident" xsi:type="Serving" source="app-maintenance-system" target="proc-equipment-incident-handling" />
+    <relationship identifier="rel-quality-system-serves-inspection" xsi:type="Serving" source="app-quality-system" target="proc-quality-inspection" />
+    <relationship identifier="rel-edge-serves-mes" xsi:type="Serving" source="node-edge-platform" target="app-mes" />
+    <relationship identifier="rel-cnc-serves-edge" xsi:type="Serving" source="equipment-cnc-01" target="node-edge-platform" />
+    <relationship identifier="rel-robot-serves-edge" xsi:type="Serving" source="equipment-assembly-robot-02" target="node-edge-platform" />
+    <relationship identifier="rel-packaging-serves-edge" xsi:type="Serving" source="equipment-packaging-line-03" target="node-edge-platform" />
+    <relationship identifier="rel-cnc-associated-maintenance-system" xsi:type="Association" source="equipment-cnc-01" target="app-maintenance-system" />
+    <relationship identifier="rel-robot-associated-maintenance-system" xsi:type="Association" source="equipment-assembly-robot-02" target="app-maintenance-system" />
+    <relationship identifier="rel-robot-flows-packaging" xsi:type="Flow" source="equipment-assembly-robot-02" target="equipment-packaging-line-03" />
+    <relationship identifier="rel-packaging-associated-quality" xsi:type="Association" source="equipment-packaging-line-03" target="app-quality-system" />
+  </relationships>
+
+  <propertyDefinitions>
+    <propertyDefinition identifier="pd-criticality" type="string"><name>criticality</name></propertyDefinition>
+    <propertyDefinition identifier="pd-owner" type="string"><name>owner</name></propertyDefinition>
+    <propertyDefinition identifier="pd-tags" type="string"><name>tags</name></propertyDefinition>
+  </propertyDefinitions>
+
+  <views>
+    <diagrams>
+      <view identifier="view-manufacturing-impact" xsi:type="Diagram" viewpoint="Layered">
+        <name>Manufacturing Operations Impact View</name>
+        <documentation>Layered production architecture view showing departments, processes, applications, edge platform and machines.</documentation>
+
+        <node identifier="view-node-production-capability" xsi:type="Element" elementRef="cap-production-operations" x="680" y="20" w="240" h="70" />
+        <node identifier="view-node-quality-capability" xsi:type="Element" elementRef="cap-quality-management" x="980" y="20" w="240" h="70" />
+
+        <node identifier="view-node-production-department" xsi:type="Element" elementRef="actor-production-department" x="40" y="140" w="240" h="70" />
+        <node identifier="view-node-maintenance-department" xsi:type="Element" elementRef="actor-maintenance-department" x="340" y="140" w="240" h="70" />
+        <node identifier="view-node-quality-department" xsi:type="Element" elementRef="actor-quality-department" x="640" y="140" w="240" h="70" />
+
+        <node identifier="view-node-production-scheduling" xsi:type="Element" elementRef="proc-production-scheduling" x="40" y="280" w="240" h="70" />
+        <node identifier="view-node-equipment-incident" xsi:type="Element" elementRef="proc-equipment-incident-handling" x="340" y="280" w="240" h="70" />
+        <node identifier="view-node-quality-inspection" xsi:type="Element" elementRef="proc-quality-inspection" x="640" y="280" w="240" h="70" />
+
+        <node identifier="view-node-mes" xsi:type="Element" elementRef="app-mes" x="40" y="420" w="240" h="70" />
+        <node identifier="view-node-maintenance-system" xsi:type="Element" elementRef="app-maintenance-system" x="340" y="420" w="240" h="70" />
+        <node identifier="view-node-quality-system" xsi:type="Element" elementRef="app-quality-system" x="640" y="420" w="240" h="70" />
+
+        <node identifier="view-node-edge-platform" xsi:type="Element" elementRef="node-edge-platform" x="340" y="560" w="240" h="70" />
+        <node identifier="view-node-cnc" xsi:type="Element" elementRef="equipment-cnc-01" x="40" y="700" w="240" h="70" />
+        <node identifier="view-node-robot" xsi:type="Element" elementRef="equipment-assembly-robot-02" x="340" y="700" w="240" h="70" />
+        <node identifier="view-node-packaging" xsi:type="Element" elementRef="equipment-packaging-line-03" x="640" y="700" w="240" h="70" />
+
+        <connection identifier="view-conn-production-assigned-scheduling" xsi:type="Relationship" relationshipRef="rel-production-assigned-scheduling" source="view-node-production-department" target="view-node-production-scheduling" />
+        <connection identifier="view-conn-maintenance-assigned-incident" xsi:type="Relationship" relationshipRef="rel-maintenance-assigned-incident" source="view-node-maintenance-department" target="view-node-equipment-incident" />
+        <connection identifier="view-conn-quality-assigned-inspection" xsi:type="Relationship" relationshipRef="rel-quality-assigned-inspection" source="view-node-quality-department" target="view-node-quality-inspection" />
+        <connection identifier="view-conn-scheduling-realizes-production" xsi:type="Relationship" relationshipRef="rel-scheduling-realizes-production" source="view-node-production-scheduling" target="view-node-production-capability" />
+        <connection identifier="view-conn-inspection-realizes-quality" xsi:type="Relationship" relationshipRef="rel-inspection-realizes-quality" source="view-node-quality-inspection" target="view-node-quality-capability" />
+        <connection identifier="view-conn-mes-serves-scheduling" xsi:type="Relationship" relationshipRef="rel-mes-serves-scheduling" source="view-node-mes" target="view-node-production-scheduling" />
+        <connection identifier="view-conn-maintenance-system-serves-incident" xsi:type="Relationship" relationshipRef="rel-maintenance-system-serves-incident" source="view-node-maintenance-system" target="view-node-equipment-incident" />
+        <connection identifier="view-conn-quality-system-serves-inspection" xsi:type="Relationship" relationshipRef="rel-quality-system-serves-inspection" source="view-node-quality-system" target="view-node-quality-inspection" />
+        <connection identifier="view-conn-edge-serves-mes" xsi:type="Relationship" relationshipRef="rel-edge-serves-mes" source="view-node-edge-platform" target="view-node-mes" />
+        <connection identifier="view-conn-cnc-serves-edge" xsi:type="Relationship" relationshipRef="rel-cnc-serves-edge" source="view-node-cnc" target="view-node-edge-platform" />
+        <connection identifier="view-conn-robot-serves-edge" xsi:type="Relationship" relationshipRef="rel-robot-serves-edge" source="view-node-robot" target="view-node-edge-platform" />
+        <connection identifier="view-conn-packaging-serves-edge" xsi:type="Relationship" relationshipRef="rel-packaging-serves-edge" source="view-node-packaging" target="view-node-edge-platform" />
+        <connection identifier="view-conn-cnc-associated-maintenance-system" xsi:type="Relationship" relationshipRef="rel-cnc-associated-maintenance-system" source="view-node-cnc" target="view-node-maintenance-system" />
+        <connection identifier="view-conn-robot-associated-maintenance-system" xsi:type="Relationship" relationshipRef="rel-robot-associated-maintenance-system" source="view-node-robot" target="view-node-maintenance-system" />
+        <connection identifier="view-conn-robot-flows-packaging" xsi:type="Relationship" relationshipRef="rel-robot-flows-packaging" source="view-node-robot" target="view-node-packaging" />
+        <connection identifier="view-conn-packaging-associated-quality" xsi:type="Relationship" relationshipRef="rel-packaging-associated-quality" source="view-node-packaging" target="view-node-quality-system" />
+      </view>
+    </diagrams>
+  </views>
+</model>

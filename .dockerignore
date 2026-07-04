@@ -1,11 +1,10 @@
+.git/
+.idea/
 .venv/
-__pycache__/
 .pytest_cache/
+__pycache__/
+*.pyc
 dist/
 build/
 *.egg-info/
-.coverage
-.DS_Store
-.env
 reports/*.md
-!reports/.gitkeep

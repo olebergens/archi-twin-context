@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "archi-twin-context"
-version = "0.1.0"
+version = "0.3.1"
 description = "Enrich Digital Twin alerts with Enterprise Architecture context"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -29,6 +29,8 @@ dependencies = [
   "PyYAML>=6.0,<7.0",
   "typer>=0.12,<1.0",
   "rich>=13.0,<15.0",
+  "xmlschema>=3.0,<5.0",
+  "psycopg[binary]>=3.1,<4.0",
 ]
 
 [project.optional-dependencies]

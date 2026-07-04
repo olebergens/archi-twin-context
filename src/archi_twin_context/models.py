@@ -49,15 +49,23 @@ class DigitalTwinAlert(StrictModel):
 class AssetMapping(StrictModel):
     asset_id: str = Field(min_length=1)
     ea_element_id: str = Field(min_length=1)
+    archimate_element_id: str | None = None
+    match_name: str | None = None
+    match_tags: list[str] = Field(default_factory=list)
     default_bpmn_process: str | None = None
     owner: str | None = None
 
-    @field_validator("default_bpmn_process", "owner", mode="before")
+    @field_validator("archimate_element_id", "match_name", "default_bpmn_process", "owner", mode="before")
     @classmethod
     def empty_optional_string_to_none(cls, value: Any) -> Any:
         if isinstance(value, str) and not value.strip():
             return None
         return value
+
+    @field_validator("match_tags")
+    @classmethod
+    def validate_match_tags(cls, values: list[str]) -> list[str]:
+        return _clean_string_list(values)
 
 
 class EAElement(StrictModel):
@@ -95,17 +103,40 @@ class EAElement(StrictModel):
     )
     @classmethod
     def validate_string_list(cls, values: list[str]) -> list[str]:
-        cleaned_values: list[str] = []
-        for item in values:
-            cleaned_item = item.strip()
-            if not cleaned_item:
-                raise ValueError("list items must not be empty")
-            cleaned_values.append(cleaned_item)
-        return cleaned_values
+        return _clean_string_list(values)
+
+
+class EARelationship(StrictModel):
+    id: str = Field(min_length=1)
+    type: str = Field(min_length=1)
+    source_id: str = Field(min_length=1)
+    target_id: str = Field(min_length=1)
+    name: str | None = None
+    description: str | None = None
+
+    @field_validator("name", "description", mode="before")
+    @classmethod
+    def empty_optional_string_to_none(cls, value: Any) -> Any:
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
+
+
+class ImpactTreeNode(StrictModel):
+    element_id: str = Field(min_length=1)
+    name: str = Field(min_length=1)
+    type: str = Field(min_length=1)
+    layer: str = Field(min_length=1)
+    relationship_id: str | None = None
+    relationship_type: str | None = None
+    direction: str | None = None
+    cycle: bool = False
+    children: list["ImpactTreeNode"] = Field(default_factory=list)
 
 
 class ArchitectureModel(StrictModel):
     elements: list[EAElement] = Field(min_length=1)
+    relationships: list[EARelationship] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_element_references(self) -> ArchitectureModel:
@@ -113,6 +144,20 @@ class ArchitectureModel(StrictModel):
         duplicate_ids = sorted({element_id for element_id in element_ids if element_ids.count(element_id) > 1})
         if duplicate_ids:
             raise ValueError(f"architecture model contains duplicate element ids: {', '.join(duplicate_ids)}")
+
+        relationship_ids = [relationship.id for relationship in self.relationships]
+        duplicate_relationship_ids = sorted(
+            {
+                relationship_id
+                for relationship_id in relationship_ids
+                if relationship_ids.count(relationship_id) > 1
+            }
+        )
+        if duplicate_relationship_ids:
+            raise ValueError(
+                "architecture model contains duplicate relationship ids: "
+                + ", ".join(duplicate_relationship_ids)
+            )
 
         known_ids = set(element_ids)
         reference_fields = (
@@ -127,6 +172,12 @@ class ArchitectureModel(StrictModel):
                 for reference_id in getattr(element, field_name):
                     if reference_id not in known_ids:
                         missing_references.append(f"{element.id}.{field_name}: {reference_id}")
+
+        for relationship in self.relationships:
+            if relationship.source_id not in known_ids:
+                missing_references.append(f"{relationship.id}.source_id: {relationship.source_id}")
+            if relationship.target_id not in known_ids:
+                missing_references.append(f"{relationship.id}.target_id: {relationship.target_id}")
 
         if missing_references:
             raise ValueError(
@@ -144,4 +195,15 @@ class EnrichedAlert(StrictModel):
     recommended_bpmn_process: str | None
     recommended_owner: str
     risk_level: str
+    impact_tree: ImpactTreeNode | None = None
     trace: list[str] = Field(default_factory=list)
+
+
+def _clean_string_list(values: list[str]) -> list[str]:
+    cleaned_values: list[str] = []
+    for item in values:
+        cleaned_item = item.strip()
+        if not cleaned_item:
+            raise ValueError("list items must not be empty")
+        cleaned_values.append(cleaned_item)
+    return cleaned_values

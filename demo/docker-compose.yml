@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: archi_twin_context
+      POSTGRES_USER: archi
+      POSTGRES_PASSWORD: archi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U archi -d archi_twin_context"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  twin-fountain:
+    build:
+      context: ..
+      dockerfile: demo/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://archi:archi@postgres:5432/archi_twin_context
+    command:
+      - python
+      - -m
+      - demo.fountain
+      - --interval
+      - "2"
+      - --event-probability
+      - "0.35"
+      - --idle-log-every
+      - "5"
+
+  enrichment-engine:
+    build:
+      context: ..
+      dockerfile: demo/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://archi:archi@postgres:5432/archi_twin_context
+    command:
+      - archi-twin-context
+      - engine
+      - --mapping
+      - examples/twin_architecture_mapping_manufacturing.yaml
+      - --model
+      - examples/manufacturing_archimate_model.xml
+      - --xsd
+      - xsd/archimate3_Diagram.xsd
+      - --poll-interval
+      - "2"
+      - --idle-log-every
+      - "5"
+
+volumes:
+  postgres_data:

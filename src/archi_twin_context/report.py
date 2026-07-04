@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .models import EnrichedAlert
+from .models import EnrichedAlert, ImpactTreeNode
 
 
 def render_markdown_report(enriched_alert: EnrichedAlert) -> str:
@@ -36,13 +36,23 @@ def render_markdown_report(enriched_alert: EnrichedAlert) -> str:
         f"- Affected Applications: {_format_list(enriched_alert.business_impact['application_components'])}",
         f"- Affected Technology Nodes: {_format_list(enriched_alert.business_impact['technology_nodes'])}",
         "",
+        "## Impact Tree",
+    ]
+
+    if enriched_alert.impact_tree:
+        lines.extend(_render_impact_tree(enriched_alert.impact_tree))
+    else:
+        lines.append("- None")
+
+    lines.extend([
+        "",
         "## Recommendation",
         f"- Risk Level: {enriched_alert.risk_level}",
         f"- Recommended Owner: {enriched_alert.recommended_owner}",
         f"- Recommended BPMN Process: {_format_optional(enriched_alert.recommended_bpmn_process)}",
         "",
         "## Trace",
-    ]
+    ])
 
     for index, trace_entry in enumerate(enriched_alert.trace, start=1):
         lines.append(f"{index}. {trace_entry}")
@@ -72,3 +82,20 @@ def _format_optional(value: str | None) -> str:
 
 def _format_list(values: list[str]) -> str:
     return ", ".join(values) if values else "None"
+
+
+def _render_impact_tree(node: ImpactTreeNode, depth: int = 0) -> list[str]:
+    indent = "  " * depth
+    relationship = ""
+    if node.relationship_type:
+        direction = f" {node.direction}" if node.direction else ""
+        relationship = f"{node.relationship_type}{direction} -> "
+
+    cycle = " (already visited)" if node.cycle else ""
+    lines = [f"{indent}- {relationship}{node.name} [{node.type} / {node.layer}]{cycle}"]
+    if node.cycle:
+        return lines
+
+    for child in node.children:
+        lines.extend(_render_impact_tree(child, depth + 1))
+    return lines

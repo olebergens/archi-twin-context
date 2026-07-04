@@ -1,0 +1,33 @@
+assets:
+  - asset_id: cnc-01
+    ea_element_id: dt-cnc-machine-01
+    archimate_element_id: equipment-cnc-01
+    match_name: CNC Milling Machine 01
+    match_tags:
+      - cnc
+      - machine
+      - production
+    default_bpmn_process: handle-critical-equipment-anomaly
+    owner: Maintenance Department
+
+  - asset_id: assembly-robot-02
+    ea_element_id: dt-assembly-robot-02
+    archimate_element_id: equipment-assembly-robot-02
+    match_name: Assembly Robot 02
+    match_tags:
+      - robot
+      - machine
+      - production
+    default_bpmn_process: handle-critical-equipment-anomaly
+    owner: Maintenance Department
+
+  - asset_id: packaging-line-03
+    ea_element_id: dt-packaging-line-03
+    archimate_element_id: equipment-packaging-line-03
+    match_name: Packaging Line 03
+    match_tags:
+      - packaging
+      - machine
+      - production
+    default_bpmn_process: inspect-quality-impact
+    owner: Production Department

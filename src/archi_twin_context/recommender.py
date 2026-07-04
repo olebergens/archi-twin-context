@@ -15,6 +15,7 @@ def recommend_bpmn_process(
 
     process_rules = {
         "temperature_high": "handle-equipment-anomaly",
+        "vibration_high": "handle-equipment-anomaly",
         "network_latency_high": "investigate-connectivity-issue",
         "availability_low": "handle-service-degradation",
     }
